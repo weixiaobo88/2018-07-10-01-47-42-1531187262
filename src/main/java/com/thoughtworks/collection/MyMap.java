@@ -5,6 +5,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 public class MyMap {
 
     List<Integer> array;
@@ -17,11 +19,19 @@ public class MyMap {
     }
 
     public List<Integer> getTriple() {
-        throw new NotImplementedException();
+        return array.stream()
+                .map(item -> item * 3)
+                .collect(toList());
     }
 
     public List<String> mapLetter() {
-        throw new NotImplementedException();
+        return  array.stream()
+                .map(this::mapSingleLetter)
+                .collect(toList());
+    }
+
+    private String mapSingleLetter(int number) {
+        return number > 0 ? letters[number - 1] : "";
     }
 
     public List<String> mapLetters() {
