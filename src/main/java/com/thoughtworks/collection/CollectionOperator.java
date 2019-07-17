@@ -2,38 +2,29 @@ package com.thoughtworks.collection;
 
 import org.apache.commons.collections.ListUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class CollectionOperator {
     public List<Integer> getListByInterval(int left, int right) {
-        List<Integer> list = new ArrayList<>();
-        int start = left < right ? left : right;
-        int end = left < right ? right : left;
-        for (int element = start; element < end + 1; element++) {
-            list.add(element);
-        }
-        if (left > right) {
-            Collections.reverse(list);
-        }
-        return list;
+        int leftBorder = left < right ? left : right;
+        int rightBorder = left < right ? right : left;
+        Stream<Integer> result = IntStream.rangeClosed(leftBorder, rightBorder)
+                .boxed();
+        return left < right ? result.collect(Collectors.toList()) : result.sorted(Comparator.reverseOrder()).collect(Collectors.toList());
     }
 
     public List<Integer> getEvenListByIntervals(int left, int right) {
-        List<Integer> list = new ArrayList<>();
-        int start = left < right ? left : right;
-        int end = left < right ? right : left;
-        for (int element = start; element < end + 1; element++) {
-            if (element % 2 == 0) {
-                list.add(element);
-            }
-        }
-        if (left > right) {
-            Collections.reverse(list);
-        }
-        return list;
+
+        int leftBorder = left < right ? left : right;
+        int rightBorder = left < right ? right : left;
+        Stream<Integer> result = IntStream.rangeClosed(leftBorder, rightBorder)
+                .boxed()
+                .filter(number -> number % 2 == 0);
+
+        return left < right ? result.collect(Collectors.toList()) : result.sorted(Comparator.reverseOrder()).collect(Collectors.toList());
     }
 
     public List<Integer> popEvenElments(int[] array) {
